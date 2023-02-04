@@ -33,6 +33,9 @@ public class Skill : MonoBehaviour
 
             foreach (Block block in levels.CurrentLevel.blocks)
             {
+                if (block.colorCategory != colorSelected)
+                    continue;
+
                 block.setActivation(true);
             }
         }
@@ -48,6 +51,9 @@ public class Skill : MonoBehaviour
             {
                 foreach (Block block in levels.CurrentLevel.blocks)
                 {
+                    if (block.colorCategory != colorSelected)
+                        continue;
+                        
                     block.setActivation(false);
                 }
             }
