@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SpriteRenderer sprite;
 
     [Header("Horizontal Movement Settings")]
-    
+
     [SerializeField] private float speed;
 
     #region Jump Settings
@@ -20,18 +20,18 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump Settings")]
 
-    [SerializeField] private float GroundCheckRadius;
-    [SerializeField] private float JumpStamina;
-    [SerializeField] private float JumpVelocity = 5f;
-    [SerializeField] private float JumpCut = 0.5f;
-    [SerializeField] private float JumpPressedRememberTime = 0.2f;
-    [SerializeField] private float GroundedRememberTime = 0.2f;
+    [SerializeField] private float groundCheckRadius;
+    [SerializeField] private float jumpStamina;
+    [SerializeField] private float jumpVelocity = 5f;
+    [SerializeField] private float jumpCut = 0.5f;
+    [SerializeField] private float jumpPressedRememberTime = 0.2f;
+    [SerializeField] private float groundedRememberTime = 0.2f;
 
     [Space(10)]
 
-    [SerializeField] private LayerMask GroundMask;
+    [SerializeField] private LayerMask groundMask;
 
-    [SerializeField] private Transform GroundCheck;
+    [SerializeField] private Transform groundCheck;
 
     #endregion
 
@@ -39,12 +39,10 @@ public class PlayerController : MonoBehaviour
 
     #region Private/Hidden/Protected Variable
 
-    private float JumpPressedRemember = 0;
-
-    private float GroundedRemember = 0;
+    private float jumpPressedRemember = 0;
+    private float groundedRemember = 0;
 
     private bool isGrounded;
-
     private bool isJump;
 
     private Rigidbody2D rb;
@@ -63,22 +61,27 @@ public class PlayerController : MonoBehaviour
         // check if player touch ground at this current frame
         isGrounded = CheckGround();
 
-        if (GroundedRemember > -1)
-            GroundedRemember -= Time.deltaTime;
+        if (groundedRemember > -1)
+            groundedRemember -= Time.deltaTime;
 
         if (isGrounded)
         {
-            GroundedRemember = GroundedRememberTime;
+            groundedRemember = groundedRememberTime;
+            HorizontalMove(Input.GetAxis("Horizontal"));
+        }
+        else
+        {
+            HorizontalMove(Input.GetAxis("Air Horizontal"));
         }
 
-        if (JumpPressedRemember > -1)
-            JumpPressedRemember -= Time.deltaTime;
+        if (jumpPressedRemember > -1)
+            jumpPressedRemember -= Time.deltaTime;
 
         if (Input.GetButtonDown("Jump"))
         {
-            JumpPressedRemember = JumpPressedRememberTime;
+            jumpPressedRemember = jumpPressedRememberTime;
 
-            if (GroundedRemember > 0)
+            if (groundedRemember > 0)
                 isJump = true;
         }
 
@@ -87,21 +90,19 @@ public class PlayerController : MonoBehaviour
             if (rb.velocity.y > 0)
                 rb.velocity = new Vector2(
                     rb.velocity.x,
-                    rb.velocity.y * JumpCut
+                    rb.velocity.y * jumpCut
                 );
 
             isJump = false;
         }
 
-        if (JumpPressedRemember > 0 && GroundedRemember > 0)
+        if (jumpPressedRemember > 0 && groundedRemember > 0)
         {
-            JumpPressedRemember = 0;
-            GroundedRemember = 0;
+            jumpPressedRemember = 0;
+            groundedRemember = 0;
 
             Jump();
         }
-
-        HorizontalMove(Input.GetAxisRaw("Horizontal"));
     }
 
     /// <summary>
@@ -123,13 +124,13 @@ public class PlayerController : MonoBehaviour
             rb.velocity.y
         );
     }
-    
+
     /// <summary>
     /// Detect object with <c>GroundMask</c> mask at <c>GroundCheck</c> position and whithin <c>GroundCheck</c> radius.
     /// </summary>
     private bool CheckGround()
     {
-        return Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundMask);
+        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundMask);
     }
 
     /// <summary>
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(
             rb.velocity.x,
-            JumpVelocity
+            jumpVelocity
         );
     }
 }

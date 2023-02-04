@@ -471,7 +471,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 910df1eb7b96f81059816b7f3cafd3a1, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -531,17 +531,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49820a61f1ffd0daab2b56d08d1f1d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 781488095}
   speed: 10
-  GroundCheckRadius: 0.1
-  JumpStamina: 0
-  JumpVelocity: 10
-  JumpCut: 0.5
-  JumpPressedRememberTime: 0.2
-  GroundedRememberTime: 0.2
-  GroundMask:
+  groundCheckRadius: 0.5
+  jumpStamina: 0
+  jumpVelocity: 10
+  jumpCut: 0.5
+  jumpPressedRememberTime: 0.01
+  groundedRememberTime: 0.1
+  groundMask:
     serializedVersion: 2
     m_Bits: 8
-  GroundCheck: {fileID: 1818260366}
+  groundCheck: {fileID: 1818260366}
 --- !u!1 &1818260365
 GameObject:
   m_ObjectHideFlags: 0
