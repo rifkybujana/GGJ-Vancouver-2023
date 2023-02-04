@@ -17,12 +17,6 @@ public class Skill : MonoBehaviour
 
     private colors colorSelected = colors.White;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -53,7 +47,7 @@ public class Skill : MonoBehaviour
                 {
                     if (block.colorCategory != colorSelected)
                         continue;
-                        
+
                     block.setActivation(false);
                 }
             }
