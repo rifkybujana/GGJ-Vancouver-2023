@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
+    [SerializeField] private Levels levels;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     [Header("Horizontal Movement Settings")]
 
@@ -163,5 +166,16 @@ public class PlayerController : MonoBehaviour
             rb.velocity.x,
             jumpVelocity
         );
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.tag == "Next Level Door")
+        {
+            Door door = other.gameObject.GetComponent<Door>();
+            transform.position = door.playerTransferPos.position;
+            virtualCamera.Follow = levels.ChangeLevel(
+                door.targetLevel
+            ).transform;
+        }
     }
 }

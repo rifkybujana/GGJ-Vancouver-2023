@@ -5,8 +5,12 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
 
-    [SerializeField] private Color defaultColor;
-    [SerializeField] private Color activatedColor;
+    public enum colors {Red, Blue, Yellow, White};
+
+    public colors colorCategory = colors.White;
+
+    [SerializeField] private Color defaultColor = Color.black;
+    [SerializeField] private Color activatedColor = Color.white;
 
     [SerializeField] private float activationSpeed = 1;
 
