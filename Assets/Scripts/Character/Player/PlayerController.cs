@@ -9,14 +9,13 @@ public class PlayerController : MonoBehaviour
     #region Public/Serializable Variable
 
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Animator animator;
 
     [Header("Horizontal Movement Settings")]
 
     [SerializeField] private float speed;
 
     #region Jump Settings
-
-    [Space(10)]
 
     [Header("Jump Settings")]
 
@@ -33,6 +32,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform groundCheck;
 
+    [Header("Animation")]
+
+    [SerializeField] private float runAnimationRange = 0.2f;
+
     #endregion
 
     #endregion
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrounded;
     private bool isJump;
+    private bool direction;
 
     private Rigidbody2D rb;
 
@@ -103,6 +107,23 @@ public class PlayerController : MonoBehaviour
 
             Jump();
         }
+
+        AnimationControl(Input.GetAxisRaw("Horizontal"));
+        SetFlip(Input.GetAxisRaw("Horizontal"));
+    }
+
+    private void AnimationControl(float playerInput)
+    {
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetBool("isMoving", (playerInput < -runAnimationRange || playerInput > runAnimationRange));
+    }
+
+    private void SetFlip(float playerInput)
+    {
+        if (playerInput != 0)
+            direction = playerInput < 0;
+
+        sprite.flipX = direction;
     }
 
     /// <summary>
