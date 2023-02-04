@@ -41,6 +41,16 @@ public class Skill : MonoBehaviour
             cooldownTimer -= Time.deltaTime;
 
         if (durationTimer > 0)
+        {
             durationTimer -= Time.deltaTime;
+
+            if (durationTimer <= 0)
+            {
+                foreach (Block block in levels.CurrentLevel.blocks)
+                {
+                    block.setActivation(false);
+                }
+            }
+        }
     }
 }

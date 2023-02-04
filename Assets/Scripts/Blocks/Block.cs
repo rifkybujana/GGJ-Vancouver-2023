@@ -15,6 +15,7 @@ public class Block : MonoBehaviour
 
     private float timer = 0;
 
+    private bool inContact = false;
     private bool isActivated = false;
 
     private SpriteRenderer sprite;
@@ -39,6 +40,7 @@ public class Block : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             setActivation(true);
+            inContact = true;
         }
     }
 
@@ -47,12 +49,16 @@ public class Block : MonoBehaviour
         // reset color
         if (other.gameObject.tag == "Player")
         {
+            inContact = false;
             setActivation(false);
         }
     }
 
     public void setActivation(bool activation)
     {
+        if (inContact)
+            return;
+
         isActivated = activation;
         timer = 0f;
     }
