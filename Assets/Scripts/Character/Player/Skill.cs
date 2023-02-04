@@ -25,13 +25,7 @@ public class Skill : MonoBehaviour
             cooldownTimer = skillCooldown;
             durationTimer = skillDuration;
 
-            foreach (Block block in levels.CurrentLevel.blocks)
-            {
-                if (block.colorCategory != colorSelected)
-                    continue;
-
-                block.setActivation(true);
-            }
+            StartCoroutine("SetBlocksActivation", true);
         }
 
         if (cooldownTimer > 0)
@@ -42,15 +36,20 @@ public class Skill : MonoBehaviour
             durationTimer -= Time.deltaTime;
 
             if (durationTimer <= 0)
-            {
-                foreach (Block block in levels.CurrentLevel.blocks)
-                {
-                    if (block.colorCategory != colorSelected)
-                        continue;
+                StartCoroutine("SetBlocksActivation", false);
+        }
+    }
 
-                    block.setActivation(false);
-                }
-            }
+    private IEnumerator SetBlocksActivation(bool val)
+    {
+        foreach (Block block in levels.CurrentLevel.blocks)
+        {
+            if (block.colorCategory != colorSelected)
+                continue;
+
+            block.setActivation(val);
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }
