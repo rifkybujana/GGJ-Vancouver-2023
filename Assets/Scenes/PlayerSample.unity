@@ -401,9 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: 0
-  levelManagers:
-  - {fileID: 154066927}
-  - {fileID: 792459900}
+  levelManagers: []
 --- !u!4 &628413356
 Transform:
   m_ObjectHideFlags: 0

@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public List<GameObject> blocks = new List<GameObject>();
+    [HideInInspector] public List<Block> blocks;
+
+    private void Start() 
+    {
+        blocks = new List<Block>(gameObject.GetComponentsInChildren<Block>());
+    }
 
     public Block this[int index]
     {
-        get { return blocks[index].GetComponent<Block>(); }
+        get { return blocks[index]; }
     }
 }
