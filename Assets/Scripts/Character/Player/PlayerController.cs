@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
 
     #region Public/Serializable Variable
 
-    [Header("Horizontal Movement Settings")]
+    [SerializeField] private SpriteRenderer sprite;
 
+    [Header("Horizontal Movement Settings")]
+    
     [SerializeField] private float speed;
 
     #region Jump Settings
@@ -57,15 +60,48 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        HorizontalMove(Input.GetAxis("Horizontal"));
-
         // check if player touch ground at this current frame
         isGrounded = CheckGround();
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (GroundedRemember > -1)
+            GroundedRemember -= Time.deltaTime;
+
+        if (isGrounded)
         {
+            GroundedRemember = GroundedRememberTime;
+        }
+
+        if (JumpPressedRemember > -1)
+            JumpPressedRemember -= Time.deltaTime;
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            JumpPressedRemember = JumpPressedRememberTime;
+
+            if (GroundedRemember > 0)
+                isJump = true;
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            if (rb.velocity.y > 0)
+                rb.velocity = new Vector2(
+                    rb.velocity.x,
+                    rb.velocity.y * JumpCut
+                );
+
+            isJump = false;
+        }
+
+        if (JumpPressedRemember > 0 && GroundedRemember > 0)
+        {
+            JumpPressedRemember = 0;
+            GroundedRemember = 0;
+
             Jump();
         }
+
+        HorizontalMove(Input.GetAxisRaw("Horizontal"));
     }
 
     /// <summary>
@@ -87,7 +123,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity.y
         );
     }
-
+    
     /// <summary>
     /// Detect object with <c>GroundMask</c> mask at <c>GroundCheck</c> position and whithin <c>GroundCheck</c> radius.
     /// </summary>
