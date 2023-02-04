@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum colors {Red, Blue, Yellow, White, None};
+
 public class Block : MonoBehaviour
 {
+    public colors colorCategory = colors.White;
 
-    [SerializeField] private Color defaultColor;
-    [SerializeField] private Color activatedColor;
+    [SerializeField] private Color defaultColor = Color.black;
+    [SerializeField] private Color activatedColor = Color.white;
 
     [SerializeField] private float activationSpeed = 1;
 
     private float timer = 0;
 
+    private bool inContact = false;
     private bool isActivated = false;
 
     private SpriteRenderer sprite;
@@ -35,8 +39,8 @@ public class Block : MonoBehaviour
         // change color
         if (other.gameObject.tag == "Player")
         {
-            isActivated = true;
-            timer = 0f;
+            setActivation(true);
+            inContact = true;
         }
     }
 
@@ -45,9 +49,18 @@ public class Block : MonoBehaviour
         // reset color
         if (other.gameObject.tag == "Player")
         {
-            isActivated = false;
-            timer = 0f;
+            inContact = false;
+            setActivation(false);
         }
+    }
+
+    public void setActivation(bool activation)
+    {
+        if (inContact)
+            return;
+
+        isActivated = activation;
+        timer = 0f;
     }
 
 }
