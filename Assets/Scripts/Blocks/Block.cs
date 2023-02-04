@@ -43,10 +43,28 @@ public class Block : MonoBehaviour
             inContact = true;
         }
     }
-
+    
     private void OnCollisionExit2D(Collision2D other)
     {
         // reset color
+        if (other.gameObject.tag == "Player")
+        {
+            inContact = false;
+            setActivation(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            setActivation(true);
+            inContact = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
         if (other.gameObject.tag == "Player")
         {
             inContact = false;
