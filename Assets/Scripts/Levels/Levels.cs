@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Levels : MonoBehaviour
 {
-    [HideInInspector] public int currentLevel = 0;
+    private int currentLevel = 0;
 
-    [HideInInspector] public List<LevelManager> levelManagers;
+    private List<LevelManager> levelManagers;
 
     private void Start() 
     {
@@ -24,6 +24,10 @@ public class Levels : MonoBehaviour
     public LevelManager this[int index]
     {
         get { return levelManagers[index]; }
+    }
+
+    public LevelManager CurrentLevel {
+        get { return levelManagers[currentLevel]; }
     }
     
     public GameObject ChangeLevel(int level)

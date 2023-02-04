@@ -5,13 +5,17 @@ using UnityEngine;
 public class Skill : MonoBehaviour
 {
     [SerializeField] private Levels levels;
-    
+
     [SerializeField] private KeyCode skillInput = KeyCode.LeftShift;
 
     [SerializeField] private float skillCooldown = 10;
     [SerializeField] private float skillDuration = 1;
 
     private float cooldownTimer, durationTimer;
+
+    private List<colors> colorUnlocked = new List<colors>();
+
+    private colors colorSelected = colors.White;
 
     // Start is called before the first frame update
     void Start()
@@ -22,22 +26,21 @@ public class Skill : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(skillInput) && cooldownTimer <= 0)
+        if (Input.GetKeyDown(skillInput) && cooldownTimer <= 0 && colorSelected != colors.None)
         {
             cooldownTimer = skillCooldown;
             durationTimer = skillDuration;
-            
-            Debug.Log("Activate Skill!");
-        }
-        else if (Input.GetKeyDown(skillInput))
-        {
-            Debug.Log("Skill Cooldown!");
+
+            foreach (Block block in levels.CurrentLevel.blocks)
+            {
+                block.setActivation(true);
+            }
         }
 
-        if (cooldownTimer >= 0)
+        if (cooldownTimer > 0)
             cooldownTimer -= Time.deltaTime;
 
-        if (durationTimer >= 0)
+        if (durationTimer > 0)
             durationTimer -= Time.deltaTime;
     }
 }

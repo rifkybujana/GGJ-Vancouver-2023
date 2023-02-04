@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum colors {Red, Blue, Yellow, White, None};
+
 public class Block : MonoBehaviour
 {
-
-    public enum colors {Red, Blue, Yellow, White};
-
     public colors colorCategory = colors.White;
 
     [SerializeField] private Color defaultColor = Color.black;
@@ -39,8 +38,7 @@ public class Block : MonoBehaviour
         // change color
         if (other.gameObject.tag == "Player")
         {
-            isActivated = true;
-            timer = 0f;
+            setActivation(true);
         }
     }
 
@@ -49,9 +47,14 @@ public class Block : MonoBehaviour
         // reset color
         if (other.gameObject.tag == "Player")
         {
-            isActivated = false;
-            timer = 0f;
+            setActivation(false);
         }
+    }
+
+    public void setActivation(bool activation)
+    {
+        isActivated = activation;
+        timer = 0f;
     }
 
 }
