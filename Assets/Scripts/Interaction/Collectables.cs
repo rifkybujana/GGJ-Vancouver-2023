@@ -5,11 +5,17 @@ using UnityEngine;
 public class Collectables : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonUI;
-    [SerializeField] private ParticleSystem collectParticle;
+    [SerializeField] private colors color;
+    [SerializeField] private Animator UIAnimator;
+
+    private Animator animator;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         ButtonUI.SetActive(false);
+
+        UIAnimator.enabled = false;
     }
 
     private void Update()
@@ -20,8 +26,19 @@ public class Collectables : MonoBehaviour
 
     private void Collect()
     {
-        collectParticle.Play();
+        animator.SetTrigger("collect");
+        GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        player.GetComponent<PlayerController>().checkpoint = transform;
+        player.GetComponent<Skill>().AddColor(color);
+    }
 
+    public void ShowPicture()
+    {
+        UIAnimator.enabled = true;
+    }
+
+    public void disableObject()
+    {
         gameObject.SetActive(false);
     }
 

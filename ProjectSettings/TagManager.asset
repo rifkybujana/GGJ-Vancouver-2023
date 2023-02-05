@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Next Level Door
   - Collectible
+  - Checkpoint
+  - InstaDeath
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - InstaDeath
   - 
   - 
   - 

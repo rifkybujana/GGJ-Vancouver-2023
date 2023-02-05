@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum colors {Red, Blue, Yellow, White, None};
+public enum colors {None, White, Red, Blue, Yellow};
 
 public class Block : MonoBehaviour
 {

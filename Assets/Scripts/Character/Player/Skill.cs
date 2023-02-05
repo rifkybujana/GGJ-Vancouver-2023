@@ -15,7 +15,7 @@ public class Skill : MonoBehaviour
 
     private List<colors> colorUnlocked = new List<colors>();
 
-    private colors colorSelected = colors.White;
+    private colors colorSelected = colors.None;
 
     // Update is called once per frame
     void Update()
@@ -38,6 +38,33 @@ public class Skill : MonoBehaviour
             if (durationTimer <= 0)
                 StartCoroutine("SetBlocksActivation", false);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (colorUnlocked.Count >= 1)
+                colorSelected = colorUnlocked[0];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (colorUnlocked.Count >= 2)
+                colorSelected = colorUnlocked[1];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (colorUnlocked.Count >= 3)
+                colorSelected = colorUnlocked[2];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (colorUnlocked.Count >= 4)
+                colorSelected = colorUnlocked[3];
+        }
+    }
+
+    public void AddColor(colors col)
+    {
+        colorSelected = col;
+        colorUnlocked.Add(col);
     }
 
     private IEnumerator SetBlocksActivation(bool val)

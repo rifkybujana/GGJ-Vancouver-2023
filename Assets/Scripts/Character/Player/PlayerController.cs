@@ -11,8 +11,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator UIAnimator;
     [SerializeField] private Levels levels;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private ParticleSystem deathParticle;
 
     [Header("Horizontal Movement Settings")]
 
@@ -54,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public Transform checkpoint;
+
     #endregion
 
     // Start is called before the first frame update
@@ -65,18 +69,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (UIAnimator.enabled)
+            return;
+
         // check if player touch ground at this current frame
         isGrounded = CheckGround();
 
         if (groundedRemember > -1)
             groundedRemember -= Time.deltaTime;
 
-        if (isGrounded)
+        if (isGrounded && !deathParticle.isPlaying)
         {
             groundedRemember = groundedRememberTime;
             HorizontalMove(Input.GetAxis("Horizontal"));
         }
-        else
+        else if (!deathParticle.isPlaying)
         {
             HorizontalMove(Input.GetAxis("Air Horizontal"));
         }
@@ -178,5 +185,30 @@ public class PlayerController : MonoBehaviour
                 door.targetLevel
             ).transform;
         }
+
+        if (other.gameObject.tag == "Checkpoint")
+            checkpoint = other.gameObject.transform;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        if (other.gameObject.tag == "InstaDeath")
+            Death();
+    }
+
+    public void Death()
+    {
+        // TODO: SetActive -> false
+        //       Play death particle
+        //       transform position to start
+        //       reset world state
+        sprite.gameObject.SetActive(false);
+        deathParticle.Play();
+    }
+
+    public void BackToCheckpoint()
+    {
+        transform.position = checkpoint.position;
+        sprite.gameObject.SetActive(true);
     }
 }
