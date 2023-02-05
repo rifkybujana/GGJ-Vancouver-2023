@@ -6,6 +6,8 @@ public class UIAnimationController : MonoBehaviour
 {
     private Animator UIAnimator;
 
+    [SerializeField] private Skill skill;
+
     private void Start()
     {
         UIAnimator = GetComponent<Animator>();
@@ -21,7 +23,17 @@ public class UIAnimationController : MonoBehaviour
 
     public void DisableAnimation()
     {
+        if (skill.colorUnlocked.Contains(colors.Finish))
+        {
+            UIAnimator.SetTrigger("Final");
+            return;
+        }
+        
         UIAnimator.Play("Picture");
         UIAnimator.enabled = false;
+    }
+
+    public void Finished()
+    {
     }
 }

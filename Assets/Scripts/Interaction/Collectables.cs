@@ -38,7 +38,7 @@ public class Collectables : MonoBehaviour
 
         if (asCheckpoint)
             player.GetComponent<PlayerController>().checkpoint = transform;
-            
+
         player.GetComponent<Skill>().AddColor(color);
     }
 
