@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     #region Public/Serializable Variable
 
-    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private GameObject sprite;
     [SerializeField] private Animator animator;
     [SerializeField] private Animator UIAnimator;
     [SerializeField] private Levels levels;
@@ -133,7 +133,8 @@ public class PlayerController : MonoBehaviour
         if (playerInput != 0)
             direction = playerInput < 0;
 
-        sprite.flipX = direction;
+        sprite.transform.eulerAngles = new Vector3(0, 
+            direction ? 180 : 0, 0);
     }
 
     /// <summary>
@@ -202,13 +203,13 @@ public class PlayerController : MonoBehaviour
         //       Play death particle
         //       transform position to start
         //       reset world state
-        sprite.gameObject.SetActive(false);
+        sprite.SetActive(false);
         deathParticle.Play();
     }
 
     public void BackToCheckpoint()
     {
         transform.position = checkpoint.position;
-        sprite.gameObject.SetActive(true);
+        sprite.SetActive(true);
     }
 }

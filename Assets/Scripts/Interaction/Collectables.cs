@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Collectables : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonUI;
     [SerializeField] private colors color;
     [SerializeField] private Animator UIAnimator;
+    [SerializeField] private Sprite image;
+    [SerializeField] private Image imageUI;
+    
 
     private Animator animator;
 
@@ -26,6 +30,7 @@ public class Collectables : MonoBehaviour
 
     private void Collect()
     {
+        imageUI.sprite = image;
         animator.SetTrigger("collect");
         GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
         player.GetComponent<PlayerController>().checkpoint = transform;
