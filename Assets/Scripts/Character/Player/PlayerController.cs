@@ -199,6 +199,7 @@ public class PlayerController : MonoBehaviour
             virtualCamera.Follow = levels.ChangeLevel(
                 door.targetLevel
             ).transform;
+            GetComponent<Skill>().ResetCooldown();
         }
 
         if (other.gameObject.tag == "Checkpoint")
@@ -243,5 +244,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = checkpoint.position;
         sprite.SetActive(true);
+
+        GetComponent<Skill>().ResetCooldown();
     }
 }
