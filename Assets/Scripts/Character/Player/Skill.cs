@@ -13,7 +13,7 @@ public class Skill : MonoBehaviour
 
     private float cooldownTimer, durationTimer;
 
-    private List<colors> colorUnlocked = new List<colors>();
+    [HideInInspector] public List<colors> colorUnlocked = new List<colors>();
 
     private colors colorSelected = colors.None;
 
