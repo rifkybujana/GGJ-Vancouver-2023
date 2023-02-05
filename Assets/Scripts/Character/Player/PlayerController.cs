@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
         if (playerInput != 0)
             direction = playerInput < 0;
 
-        sprite.transform.eulerAngles = new Vector3(0, 
+        sprite.transform.eulerAngles = new Vector3(0,
             direction ? 180 : 0, 0);
     }
 
@@ -191,7 +191,18 @@ public class PlayerController : MonoBehaviour
             checkpoint = other.gameObject.transform;
     }
 
-    private void OnCollisionEnter2D(Collision2D other) 
+    public IEnumerator ShakeCamera()
+    {
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 3;
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 3;
+
+        yield return new WaitForSeconds(0.2f);
+
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0;
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "InstaDeath")
             Death();
@@ -204,6 +215,7 @@ public class PlayerController : MonoBehaviour
         //       transform position to start
         //       reset world state
         sprite.SetActive(false);
+        StartCoroutine("ShakeCamera");
         deathParticle.Play();
     }
 
