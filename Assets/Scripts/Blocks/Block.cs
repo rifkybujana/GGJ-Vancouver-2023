@@ -18,11 +18,12 @@ public class Block : MonoBehaviour
     private bool inContact = false;
     private bool isActivated = false;
 
-    private SpriteRenderer sprite;
+    [SerializeField] private SpriteRenderer sprite;
 
     private void Start() 
     {
-        sprite = GetComponent<SpriteRenderer>();
+        if (sprite == null)
+            sprite = GetComponent<SpriteRenderer>();
         sprite.color = defaultColor;
     }
 
@@ -32,26 +33,6 @@ public class Block : MonoBehaviour
                        Color.Lerp(sprite.color, defaultColor, Mathf.PingPong(timer, 1));
 
         timer += Time.deltaTime * activationSpeed;
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        // change color
-        if (other.gameObject.tag == "Player")
-        {
-            setActivation(true);
-            inContact = true;
-        }
-    }
-    
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        // reset color
-        if (other.gameObject.tag == "Player")
-        {
-            inContact = false;
-            setActivation(false);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

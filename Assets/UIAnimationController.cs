@@ -21,6 +21,7 @@ public class UIAnimationController : MonoBehaviour
 
     public void DisableAnimation()
     {
-        GetComponent<Animator>().enabled = false;
+        UIAnimator.Play("Picture");
+        UIAnimator.enabled = false;
     }
 }

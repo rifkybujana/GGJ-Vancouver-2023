@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private Vector2 lastVelocity;
+
     public Transform checkpoint;
 
     #endregion
@@ -70,7 +72,17 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (UIAnimator.enabled)
+        {
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
             return;
+        }
+
+        if (rb.isKinematic)
+        {
+            rb.isKinematic = false;
+            rb.velocity = lastVelocity;
+        }
 
         // check if player touch ground at this current frame
         isGrounded = CheckGround();
@@ -120,6 +132,8 @@ public class PlayerController : MonoBehaviour
 
         AnimationControl(Input.GetAxisRaw("Horizontal"));
         SetFlip(Input.GetAxisRaw("Horizontal"));
+
+        lastVelocity = transform.position;
     }
 
     private void AnimationControl(float playerInput)
@@ -221,6 +235,12 @@ public class PlayerController : MonoBehaviour
 
     public void BackToCheckpoint()
     {
+        foreach (Block block in levels.CurrentLevel.blocks)
+        {
+            if (block.colorCategory == colors.Blue)
+                block.gameObject.GetComponent<BlueDisappear>().ResetState();
+        }
+
         transform.position = checkpoint.position;
         sprite.SetActive(true);
     }

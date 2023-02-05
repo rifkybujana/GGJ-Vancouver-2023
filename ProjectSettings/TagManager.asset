@@ -8,6 +8,7 @@ TagManager:
   - Collectible
   - Checkpoint
   - InstaDeath
+  - Sprite
   layers:
   - Default
   - TransparentFX

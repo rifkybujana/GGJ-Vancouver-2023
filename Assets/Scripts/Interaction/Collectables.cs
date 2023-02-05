@@ -10,6 +10,8 @@ public class Collectables : MonoBehaviour
     [SerializeField] private Animator UIAnimator;
     [SerializeField] private Sprite image;
     [SerializeField] private Image imageUI;
+
+    [SerializeField] private bool asCheckpoint = true;
     
 
     private Animator animator;
@@ -33,7 +35,10 @@ public class Collectables : MonoBehaviour
         imageUI.sprite = image;
         animator.SetTrigger("collect");
         GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
-        player.GetComponent<PlayerController>().checkpoint = transform;
+
+        if (asCheckpoint)
+            player.GetComponent<PlayerController>().checkpoint = transform;
+            
         player.GetComponent<Skill>().AddColor(color);
     }
 
