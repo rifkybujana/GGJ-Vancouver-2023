@@ -239,7 +239,14 @@ public class PlayerController : MonoBehaviour
         foreach (Block block in levels.CurrentLevel.blocks)
         {
             if (block.colorCategory == colors.Blue)
-                block.gameObject.GetComponent<BlueDisappear>().ResetState();
+                try
+                {
+                    block.gameObject.GetComponent<BlueDisappear>().ResetState();
+                }
+                catch
+                {
+                    block.gameObject.GetComponent<BlueDrop>().ResetState();
+                }
         }
 
         transform.position = checkpoint.position;

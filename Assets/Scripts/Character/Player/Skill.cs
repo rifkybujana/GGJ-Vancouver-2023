@@ -7,8 +7,7 @@ public class Skill : MonoBehaviour
 {
     [SerializeField] private Levels levels;
     [SerializeField] private ColorListHolder skillUI;
-    [SerializeField] private Animator UIAnimator;
-
+    
     [SerializeField] private KeyCode skillInput = KeyCode.LeftShift;
 
     [SerializeField] private float skillCooldown = 10;

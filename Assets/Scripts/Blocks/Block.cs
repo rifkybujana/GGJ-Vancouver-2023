@@ -8,6 +8,8 @@ public class Block : MonoBehaviour
 {
     public colors colorCategory = colors.White;
 
+
+    [SerializeField] private Block connectedBlock;
     [SerializeField] private Color defaultColor = Color.black;
     [SerializeField] private Color activatedColor = Color.white;
 
@@ -40,6 +42,10 @@ public class Block : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             setActivation(true);
+
+            if (connectedBlock != null)
+                connectedBlock.setActivation(true);
+
             inContact = true;
         }
     }
@@ -49,6 +55,10 @@ public class Block : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             inContact = false;
+
+            if (connectedBlock != null)
+                connectedBlock.setActivation(true);
+
             setActivation(false);
         }
     }
